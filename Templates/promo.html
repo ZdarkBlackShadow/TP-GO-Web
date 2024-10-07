@@ -1,0 +1,47 @@
+{{define "promo"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/promo.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/nav.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/promo">Promo</a></li>
+            <li><a href="/change">Change</a></li>
+            <li><a href="/user/form">Formulaire</a></li>
+            <li><a href="/user/display">Resultat</a></li>
+        </ul>
+    </nav>
+    <h1>{{.Name}}</h1>
+    <h2>{{.Filière}}</h2>
+    <h2>{{.Niveau}}</h2>
+    <h2>Nombre d'étudiant : {{.NbrEtudiant}}</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Âge</th>
+                <th>Sexe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{range .ListEtudiant}}
+            <tr>
+                <td>{{.Nom}}</td>
+                <td>{{.Prenom}}</td>
+                <td>{{.Age}} ans</td>
+                <td>{{if eq .Sexe true}}Masculin{{else}}Féminin{{end}}</td>
+            </tr>
+            {{end}}
+        </tbody>
+    </table>
+    
+</body>
+</html>
+{{end}}

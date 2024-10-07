@@ -1,0 +1,30 @@
+body{
+    background-color: black;
+}
+
+h1{
+    color: rgba(57, 138, 219, 0.718);
+    text-align: center;
+}
+
+h2{
+    color: brown;
+    text-align: center;
+}
+
+table {
+    margin: 0 auto; 
+    border-collapse: collapse;
+    width: 50%; 
+}
+
+th, td {
+    padding: 10px;
+    text-align: center; 
+    border: 1px solid rgb(147, 11, 11); 
+    color: aqua;
+}
+
+thead, tbody {
+    background-color: #ad2a7b; 
+}

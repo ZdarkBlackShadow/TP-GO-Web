@@ -1,0 +1,16 @@
+body{
+    background-color: black;
+}
+
+label{
+    color: azure;
+}
+
+form{
+    text-align: center;
+}
+
+p{
+    text-align: center;
+    color: blueviolet;
+}

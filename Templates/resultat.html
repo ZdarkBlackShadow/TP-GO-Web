@@ -1,0 +1,31 @@
+{{define "FormulaireResultat"}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/formulaire.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/nav.css">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/promo">Promo</a></li>
+            <li><a href="/change">Change</a></li>
+            <li><a href="/user/form">Formulaire</a></li>
+            <li><a href="/user/display">Resultat</a></li>
+        </ul>
+    </nav>
+    {{if .IsEmpty}}
+    <p>Aucune donnée enregistré</p>
+    {{else}}
+    {{if eq .CheckValue false}}
+    <p>La valeur n'est pas valide : {{.Value}}</p>
+    {{else}}
+    <p>La valeur est valide : {{.Value}}</p>
+    {{end}}
+    {{end}}
+</body>
+</html>
+{{end}}
