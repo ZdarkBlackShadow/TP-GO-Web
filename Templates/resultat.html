@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="/assets/css/formulaire.css">
-    <link rel="stylesheet" type="text/css" href="/assets/css/nav.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/formulaire.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/nav.css">
 </head>
 <body>
     <nav>
@@ -21,9 +21,12 @@
     <p>Aucune donnée enregistré</p>
     {{else}}
     {{if eq .CheckValue false}}
-    <p>La valeur n'est pas valide : {{.Value}}</p>
+    <p>Le(s) valeur(s) n'est(sont) pas valide(s)</p>
     {{else}}
-    <p>La valeur est valide : {{.Value}}</p>
+    <p>Nom : {{.Nom}}</p>
+    <p>Prénom : {{.Prenom}}</p>
+    <p>Date de naissance {{.Date}}</p>
+    <p>Sexe : {{.Sexe}}</p>
     {{end}}
     {{end}}
 </body>

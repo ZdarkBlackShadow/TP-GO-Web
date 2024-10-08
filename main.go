@@ -8,6 +8,7 @@ import (
 	"regexp"
 )
 
+// structures
 type Etudiant struct {
 	Nom    string
 	Prenom string
@@ -35,11 +36,17 @@ type StockageForm struct {
 
 type PageAffiche struct {
 	CheckValue bool
-	Value      string
+	Nom        string
+	Prenom     string
+	Date       string
+	Sexe       string
 	IsEmpty    bool
 }
 
-var stockageForm = StockageForm{false, ""}
+var stockageFormNom = StockageForm{false, ""}
+var stockageFormPrenom = StockageForm{false, ""}
+var stockageFormDate = StockageForm{false, ""}
+var stockageFormSexe = StockageForm{false, ""}
 
 func main() {
 	temp, err := template.ParseGlob("./templates/*.html")
@@ -49,7 +56,7 @@ func main() {
 		os.Exit(02)
 	}
 	http.HandleFunc("/promo", func(w http.ResponseWriter, r *http.Request) {
-		LE := []Etudiant{{"Lecomte", "Adrien", 20, true}, {"Petitfrere", "Alexandre", 20, true}, {"Rodrigues", "Cyril", 24, false}}
+		LE := []Etudiant{{"Lecomte", "Adrien", 20, true}, {"Petitfrere", "Alexandre", 20, true}, {"Haris", "Kamala", 59, false}}
 		data := Promo{" B1 Informatique", " Informatique", "Bachelor 1", len(LE), LE}
 		temp.ExecuteTemplate(w, "promo", data)
 	})
@@ -68,23 +75,40 @@ func main() {
 			http.Redirect(w, r, "/erreur?code=400&message=Oups méthode incorecte", http.StatusMovedPermanently)
 			return
 		}
-
-		checkValue, _ := regexp.MatchString("^[\\p{L}-]{1,64}$", r.FormValue("name"))
-		if !checkValue {
-			stockageForm = StockageForm{false, ""}
-			http.Redirect(w, r, "/erreur?code=400&message=Oups les données sont invalides", http.StatusMovedPermanently)
+		//Verification pour le nom
+		checkValueNom, _ := regexp.MatchString("^[\\p{L}-]{1,32}$", r.FormValue("nom"))
+		if !checkValueNom {
+			stockageFormNom = StockageForm{false, ""}
+			http.Redirect(w, r, "/erreur?code=400&message=Oups les données de Nom sont invalides", http.StatusMovedPermanently)
 			return
 		}
-
-		stockageForm = StockageForm{true, r.FormValue("name")}
+		stockageFormNom = StockageForm{true, r.FormValue("nom")}
+		//verification pour le prenom
+		checkValuePrenom, _ := regexp.MatchString("^[\\p{L}-]{1,32}$", r.FormValue("prenom"))
+		if !checkValuePrenom {
+			stockageFormPrenom = StockageForm{false, ""}
+			http.Redirect(w, r, "/erreur?code=400&message=Oups les données de prenom sont invalides", http.StatusMovedPermanently)
+			return
+		}
+		stockageFormPrenom = StockageForm{true, r.FormValue("prenom")}
+		//Date de naissance
+		stockageFormDate = StockageForm{true, r.FormValue("date")}
+		//verification du sexe
+		sexe := r.FormValue("sexe")
+		if sexe != "masculin" && sexe != "feminin" && sexe != "autre" {
+			http.Redirect(w, r, "/erreur?code=400&message=Valeur du sexe invalide", http.StatusMovedPermanently)
+			return
+		}
+		stockageFormSexe = StockageForm{true, sexe}
 		http.Redirect(w, r, "/user/display", http.StatusSeeOther)
 	})
 
 	http.HandleFunc("/user/display", func(w http.ResponseWriter, r *http.Request) {
-		data := PageAffiche{stockageForm.CheckValue, stockageForm.Value, (!stockageForm.CheckValue && stockageForm.Value == "")}
+		data := PageAffiche{stockageFormNom.CheckValue && stockageFormPrenom.CheckValue && stockageFormDate.CheckValue && stockageFormSexe.CheckValue, stockageFormNom.Value, stockageFormPrenom.Value, stockageFormDate.Value, stockageFormSexe.Value, (!stockageFormNom.CheckValue && stockageFormNom.Value == "" && !stockageFormPrenom.CheckValue && stockageFormPrenom.Value == "" && !stockageFormDate.CheckValue && stockageFormDate.Value == "" && !stockageFormSexe.CheckValue && stockageFormSexe.Value == "")}
 		temp.ExecuteTemplate(w, "FormulaireResultat", data)
 	})
 
+	//gestion d'erreur
 	http.HandleFunc("/erreur", func(w http.ResponseWriter, r *http.Request) {
 		code, message := r.FormValue("code"), r.FormValue("message")
 		if code != "" && message != "" {
@@ -94,7 +118,6 @@ func main() {
 		fmt.Fprint(w, "Oups une erreur est survenue")
 	})
 	fileserver := http.FileServer(http.Dir("./assets"))
-	http.Handle("/assets/", http.StripPrefix("/assets/", fileserver))
-
+	http.Handle("/static/", http.StripPrefix("/static/", fileserver))
 	http.ListenAndServe("localhost:8000", nil)
 }
