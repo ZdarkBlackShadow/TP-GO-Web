@@ -36,7 +36,16 @@
                 <td>{{.Nom}}</td>
                 <td>{{.Prenom}}</td>
                 <td>{{.Age}} ans</td>
-                <td>{{if eq .Sexe true}}Masculin{{else}}Féminin{{end}}</td>
+                <td>{{if eq .Sexe true}}
+                    <div class="container">
+                        <img class="img-fixe" src="static/image/male.png" alt="image représantant le symbole d'être masculin">
+                    </div>
+                    {{else}}
+                    <div class="container">
+                    <img class="img-fixe" src="static/image/female.png" alt="image représantant le symbole d'être féminin">
+                </div>
+                {{end}}
+            </td>
             </tr>
             {{end}}
         </tbody>

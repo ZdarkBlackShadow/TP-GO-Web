@@ -49,7 +49,7 @@ var stockageFormDate = StockageForm{false, ""}
 var stockageFormSexe = StockageForm{false, ""}
 
 func main() {
-	temp, err := template.ParseGlob("./templates/*.html")
+	temp, err := template.ParseGlob("./Templates/*.html")
 	Compteur := Change{true, 0}
 	if err != nil {
 		fmt.Printf("Erreur => %s\n", err.Error())
