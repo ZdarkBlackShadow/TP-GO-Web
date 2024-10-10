@@ -30,18 +30,9 @@ thead, tbody {
 }
 
 
-.container {
-    width: 200px; 
-    height: 200px; 
-    background-color: #ad2a7b; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; 
-}
-
-.img-fixe {
-    width: 100%; /* Remplissage du conteneur */
-    height: auto; /* Garder le ratio */
-    object-fit: contain; /* Remplir le conteneur */
+img{
+    max-width: 100px;
+    max-height: 80px;
+    width: 50%;
+    height: 50%;
 }

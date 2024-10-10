@@ -43,6 +43,7 @@ type PageAffiche struct {
 	IsEmpty    bool
 }
 
+// variable globales pour récuperer les données de l'utlisateur dans le formulaires
 var stockageFormNom = StockageForm{false, ""}
 var stockageFormPrenom = StockageForm{false, ""}
 var stockageFormDate = StockageForm{false, ""}
@@ -50,27 +51,30 @@ var stockageFormSexe = StockageForm{false, ""}
 
 func main() {
 	temp, err := template.ParseGlob("./Templates/*.html")
-	Compteur := Change{true, 0}
+	Compteur := Change{true, 0} //initialisation du compteur
 	if err != nil {
 		fmt.Printf("Erreur => %s\n", err.Error())
 		os.Exit(02)
 	}
-	http.HandleFunc("/promo", func(w http.ResponseWriter, r *http.Request) {
-		LE := []Etudiant{{"Lecomte", "Adrien", 20, true}, {"Petitfrere", "Alexandre", 20, true}, {"Haris", "Kamala", 59, false}}
-		data := Promo{" B1 Informatique", " Informatique", "Bachelor 1", len(LE), LE}
+	http.HandleFunc("/promo", func(w http.ResponseWriter, r *http.Request) { //route pour voir la promo
+		LE := []Etudiant{
+			{"Lecomte", "Adrien", 20, true},
+			{"Perez", "Jonathan", 19, true},
+			{"Lili", "Rosello", 19, false}}
+		data := Promo{" B1 Cybersécurité", "Cybersécurité", "Bachelor 1", len(LE), LE}
 		temp.ExecuteTemplate(w, "promo", data)
 	})
-	http.HandleFunc("/change", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/change", func(w http.ResponseWriter, r *http.Request) { //route pour change
 		Compteur.Compteur += 1
 		Compteur.Pair = Compteur.Compteur%2 == 0
 		temp.ExecuteTemplate(w, "change", Compteur)
 	})
 
-	http.HandleFunc("/user/form", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/user/form", func(w http.ResponseWriter, r *http.Request) { //route pour afficher le formulaire
 		temp.ExecuteTemplate(w, "AffichageFormulaire", nil)
 	})
 
-	http.HandleFunc("/user/traitement", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/user/traitement", func(w http.ResponseWriter, r *http.Request) { //route pour le traitement des données
 		if r.Method != http.MethodPost {
 			http.Redirect(w, r, "/erreur?code=400&message=Oups méthode incorecte", http.StatusMovedPermanently)
 			return
@@ -103,7 +107,7 @@ func main() {
 		http.Redirect(w, r, "/user/display", http.StatusSeeOther)
 	})
 
-	http.HandleFunc("/user/display", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/user/display", func(w http.ResponseWriter, r *http.Request) { //route pour l'affichage du résultat du formulaires
 		data := PageAffiche{stockageFormNom.CheckValue && stockageFormPrenom.CheckValue && stockageFormDate.CheckValue && stockageFormSexe.CheckValue, stockageFormNom.Value, stockageFormPrenom.Value, stockageFormDate.Value, stockageFormSexe.Value, (!stockageFormNom.CheckValue && stockageFormNom.Value == "" && !stockageFormPrenom.CheckValue && stockageFormPrenom.Value == "" && !stockageFormDate.CheckValue && stockageFormDate.Value == "" && !stockageFormSexe.CheckValue && stockageFormSexe.Value == "")}
 		temp.ExecuteTemplate(w, "FormulaireResultat", data)
 	})

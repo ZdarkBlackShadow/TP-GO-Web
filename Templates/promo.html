@@ -37,13 +37,9 @@
                 <td>{{.Prenom}}</td>
                 <td>{{.Age}} ans</td>
                 <td>{{if eq .Sexe true}}
-                    <div class="container">
-                        <img class="img-fixe" src="static/image/male.png" alt="image représantant le symbole d'être masculin">
-                    </div>
-                    {{else}}
-                    <div class="container">
-                    <img class="img-fixe" src="static/image/female.png" alt="image représantant le symbole d'être féminin">
-                </div>
+                    <img src="static/image/male.png" alt="image représantant le symbole d'être masculin">
+                {{else}}
+                    <img src="static/image/female.png" alt="image représantant le symbole d'être féminin">
                 {{end}}
             </td>
             </tr>
