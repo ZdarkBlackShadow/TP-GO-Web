@@ -9,14 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/static/css/nav.css">
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/promo">Promo</a></li>
-            <li><a href="/change">Change</a></li>
-            <li><a href="/user/form">Formulaire</a></li>
-            <li><a href="/user/display">Resultat</a></li>
-        </ul>
-    </nav>
+    {{template "header"}}
     {{if eq .Pair true}}
     <p>Nombre de visite pair</p>
     {{else}}

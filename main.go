@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
 	"regexp"
@@ -62,7 +63,10 @@ func main() {
 			{"Perez", "Jonathan", 19, true},
 			{"Lili", "Rosello", 19, false}}
 		data := Promo{" B1 Cybersécurité", "Cybersécurité", "Bachelor 1", len(LE), LE}
-		temp.ExecuteTemplate(w, "promo", data)
+		err1 := temp.ExecuteTemplate(w, "promo", data)
+		if err1 != nil {
+			log.Fatal(err1)
+		}
 	})
 	http.HandleFunc("/change", func(w http.ResponseWriter, r *http.Request) { //route pour change
 		Compteur.Compteur += 1

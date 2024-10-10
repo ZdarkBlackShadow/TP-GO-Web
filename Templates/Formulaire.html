@@ -10,27 +10,26 @@
 
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/promo">Promo</a></li>
-            <li><a href="/change">Change</a></li>
-            <li><a href="/user/form">Formulaire</a></li>
-            <li><a href="/user/display">Resultat</a></li>
-        </ul>
-    </nav>
+    {{template "header"}}
     <form action="/user/traitement" method="POST">
+        <BR><BR><BR> 
         <label for="nom">Nom</label>
         <input type="text" name="nom" id="nom">
+        <BR><BR><BR>
         <label for="prenom">Prénom</label>
         <input type="text" name="prenom" id="prenom">
+        <BR><BR><BR>
         <label for="date">Date de naissance</label>
         <input type="date" name="date" id="date">
+        <BR><BR><BR>
+        <label for="Sexe">Sexe</label>
         <select name="sexe" id="sexe" required>
             <option value="">-- Sélectionnez --</option>
             <option value="masculin">Masculin</option>
             <option value="feminin">Féminin</option>
             <option value="autre">Autre</option>
         </select>
+        <BR><BR><BR><BR>
         <button type="submit">valider</button>
     </form>
 </body>
